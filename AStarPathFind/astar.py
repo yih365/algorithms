@@ -81,7 +81,19 @@ class Node:
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
     def update_neighbors(self, grid):
-        pass
+        self.neighbors = []
+        if self.row < self.total_rows -1 and not grid[self.row+1][self.col].is_barrier():
+            # Check down a row
+            self.neighbors.append(grid[self.row+1][self.col])
+        if self.row > 0 and not grid[self.row-1][self.col].is_barrier():
+            # Check up a row
+            self.neighbors.append(grid[self.row-1][self.col])
+        if self.col < self.total_rows -1 and not grid[self.row][self.col+1].is_barrier():
+            # Check right a column
+            self.neighbors.append(grid[self.row][self.col+1])
+        if self.col > 0 and not grid[self.row][self.col-1].is_barrier():
+            # Check left a column
+            self.neighbors.append(grid[self.row][self.col-1])
 
     def __lt__(self, other):
         """less than comparator"""
@@ -93,6 +105,74 @@ def h(p1, p2):
     x1,y1 = p1
     x2,y2 = p2
     return abs(x1-x2) + abs(y1-y2)
+
+
+def reconstruct_path(came_from, current, win, width, rows, grid):
+    """ Constructs final path """
+    while current in came_from:
+        current = came_from[current]
+        current.make_path()
+        draw(win, grid, rows, width)
+
+
+def algorithm(win, width, rows, grid, start, end):
+    count = 0
+
+    # PQ for getting next best node
+    open_set = PriorityQueue()
+    open_set.put((0, count, start))
+
+    # Set for checking if something is in pq
+    open_set_hash = {start}
+
+    # Keep track of path
+    came_from = {}
+
+    # f and g scores table
+    g_score = {node: float("inf") for row in grid for node in row}
+    g_score[start] = 0
+    f_score = {node: float("inf") for row in grid for node in row}
+    f_score[start] = g_score[start] + h(start.get_pos(), end.get_pos())
+
+    # while still available nodes to explore
+    while not open_set.empty():
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        
+        # Get next node from PQ
+        current = open_set.get()[2]
+        open_set_hash.remove(current)
+
+        # Reached the end
+        if current == end:
+            reconstruct_path(came_from, end, win, width, rows, grid)
+            end.make_end()
+            return True
+
+        # Update neighbor scores
+        for neighbor in current.neighbors:
+            temp_g_score = g_score[current]+1
+
+            if temp_g_score < g_score[neighbor]:
+                came_from[neighbor] = current
+                g_score[neighbor] = temp_g_score
+                f_score[neighbor] = temp_g_score + h(neighbor.get_pos(), end.get_pos())
+
+                if neighbor not in open_set_hash:
+                    count += 1
+                    open_set.put((f_score[neighbor], count, neighbor))
+                    open_set_hash.add(neighbor)
+                    neighbor.make_open()
+
+        draw(win, grid, rows, width)
+
+        # Mark node as checked
+        if current != start:
+            current.make_closed()
+
+    # Did not find path
+    return False
 
 
 def make_grid(rows, width):
@@ -144,14 +224,11 @@ def main(win, width, rows):
     end = None
     
     run = True 
-    started = False
     while run:
+        draw(win, grid, rows, width)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-
-            if started:
-                continue
 
             if pygame.mouse.get_pressed()[0]:
                 # if left mouse button is pressed
@@ -159,10 +236,10 @@ def main(win, width, rows):
                 row,col = get_clicked_pos(pos, ROWS, width)
                 node = grid[row][col]
 
-                if not start:
+                if not start and node != end:
                     start = node
                     start.make_start()
-                elif not end:
+                elif not end and node != start:
                     end = node
                     end.make_end()
                 elif node != end and node != start:
@@ -175,12 +252,23 @@ def main(win, width, rows):
 
                 if node.is_start():
                     start = None
-                    node.reset()
                 elif node.is_end():
                     end = None
-                    node.reset()
-                elif node.is_barrier():
-                    node.reset()
+
+                node.reset()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and start and end:
+                    for row in grid:
+                        for node in row:
+                            node.update_neighbors(grid)
+
+                    algorithm(win, width, rows, grid, start, end)
+
+                if event.key == pygame.K_c:
+                    start = None
+                    end = None
+                    grid = make_grid(ROWS,width)
 
     pygame.quit()
 
