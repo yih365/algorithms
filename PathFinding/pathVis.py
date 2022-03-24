@@ -3,6 +3,7 @@ import sys
 import math
 from node import Node, draw, draw_grid, reconstruct_path
 import astar
+import dijkstra
 
 
 WIDTH = 800
@@ -36,10 +37,9 @@ def make_grid(rows, width):
 
 
 def main(win, width, rows, args):
-    ALGORITHMSSET = {"astar"}
     if len(args) < 2:
         sys.exit("Usage: python pathVis.py [algorithm name]")
-    if args[1] not in ALGORITHMSSET:
+    if args[1] not in (set(sys.modules)&set(globals()) - {"pygame", "sys", "math", "node"}):
         sys.exit("Sorry this algorithm does not exist here")
     algor = args[1]
 
@@ -89,8 +89,11 @@ def main(win, width, rows, args):
                         for node in row:
                             node.update_neighbors(grid)
 
-                    ALGORITHMS = {"astar":astar.algorithm(win, width, rows, grid, start, end)}
-                    ALGORITHMS[algor]
+                    module = sys.modules[algor]
+                    try:
+                        module.algorithm(win, width, rows, grid, start, end)
+                    except:
+                        sys.exit("Could not find algorithm")
 
                 if event.key == pygame.K_c:
                     start = None
