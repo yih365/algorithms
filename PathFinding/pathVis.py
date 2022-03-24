@@ -89,6 +89,7 @@ def main(win, width, rows, args):
                         for node in row:
                             node.update_neighbors(grid)
 
+                    # Use corresponding algorithm
                     module = sys.modules[algor]
                     try:
                         module.algorithm(win, width, rows, grid, start, end)
