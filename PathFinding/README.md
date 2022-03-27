@@ -2,3 +2,4 @@
   
 ### Algorithms:
 - astar
+- dijkstra
