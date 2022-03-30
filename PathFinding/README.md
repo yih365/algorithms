@@ -3,3 +3,5 @@
 ### Algorithms:
 - astar
 - dijkstra
+- DFS
+- BFS

@@ -2,8 +2,7 @@ import pygame
 import sys
 import math
 from node import Node, draw, draw_grid, reconstruct_path
-import astar
-import dijkstra
+import astar, dijkstra, DFS, BFS
 
 
 WIDTH = 800
