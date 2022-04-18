@@ -35,9 +35,9 @@ class Column:
 
     def change_pos(self, new_pos):
         self.position = new_pos
+        self.x = self.position*self.width
 
     def draw(self, win):
-        self.x = self.position*self.width
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.pheight))
 
     def __lt__(self, other):
