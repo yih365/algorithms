@@ -5,3 +5,4 @@ Press KEY [c] to clear
 ### Algorithms:
 - bubblesort
 - selectionsort
+- insertionsort
