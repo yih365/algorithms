@@ -6,3 +6,4 @@ Press KEY [c] to clear
 - bubblesort
 - selectionsort
 - insertionsort
+- quicksort
