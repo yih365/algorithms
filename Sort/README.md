@@ -7,3 +7,4 @@ Press KEY [c] to clear
 - selectionsort
 - insertionsort
 - quicksort
+- mergesort

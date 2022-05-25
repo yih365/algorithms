@@ -2,7 +2,8 @@ import pygame
 from column import Column, draw
 import sys
 import random
-import bubblesort, selectionsort, insertionsort, quicksort
+import bubblesort, selectionsort, insertionsort
+import quicksort, mergesort
 
 
 WIDTH = 800
