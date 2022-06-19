@@ -3,7 +3,7 @@ from column import Column, draw
 import sys
 import random
 import bubblesort, selectionsort, insertionsort
-import quicksort, mergesort
+import quicksort, mergesort, cocktailsort
 
 
 WIDTH = 800

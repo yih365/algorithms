@@ -4,6 +4,7 @@ Press KEY [c] to clear
   
 ### Algorithms:
 - bubblesort
+- cocktailsort
 - selectionsort
 - insertionsort
 - quicksort
