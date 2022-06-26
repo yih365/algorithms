@@ -1,6 +1,7 @@
 import pygame
 import sys
 import math
+import time
 from node import Node, draw, draw_grid, reconstruct_path
 import astar, dijkstra, DFS, BFS
 
@@ -41,6 +42,8 @@ def main(win, width, rows, args):
     if args[1] not in (set(sys.modules)&set(globals()) - {"pygame", "sys", "math", "node"}):
         sys.exit("Sorry this algorithm does not exist here")
     algor = args[1]
+
+    startTime = time.time()
 
     ROWS = rows 
     grid = make_grid(ROWS, width)
@@ -92,6 +95,8 @@ def main(win, width, rows, args):
                     module = sys.modules[algor]
                     try:
                         module.algorithm(win, width, rows, grid, start, end)
+                        endTime = time.time()
+                        print("Time it took to find path (secs): " + str(endTime-startTime))
                     except:
                         sys.exit("Could not find algorithm")
 

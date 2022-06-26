@@ -2,6 +2,7 @@ import pygame
 from column import Column, draw
 import sys
 import random
+import time
 import bubblesort, selectionsort, insertionsort
 import quicksort, mergesort, cocktailsort
 
@@ -29,6 +30,8 @@ def main(win, game_width, total_columns, args):
         sys.exit("Sorry this algorithm does not exist here")
     algor = args[1]
 
+    start = time.time()
+
     column_width = game_width//total_columns
     columns = make_columns(total_columns, column_width, game_width)
 
@@ -44,6 +47,8 @@ def main(win, game_width, total_columns, args):
                     module = sys.modules[algor]
                     try:
                         columns = module.algorithm(win, column_width, total_columns, columns)
+                        end = time.time()
+                        print("Time it took to sort (secs): " + str(end-start))
                     except:
                         sys.exit("Could not complete algorithm")
 
