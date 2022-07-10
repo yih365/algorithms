@@ -1,5 +1,6 @@
 import pygame
-from column import Column, draw
+from column import Column
+from Columns import Columns
 import sys
 import random
 import time
@@ -12,17 +13,6 @@ WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Search Algorithm")
 COLUMNS = 50
 
-
-def make_columns(columns_num, column_width, game_width):
-    columns = []
-
-    for i in range(columns_num):
-        column = Column(i, column_width, random.randint(0, columns_num-1), game_width, columns_num)
-        columns.append(column)
-
-    return columns
-
-
 def main(win, game_width, total_columns, args):
     if len(args) < 2:
         sys.exit("Usage: python search.py [algorithm name]")
@@ -33,11 +23,11 @@ def main(win, game_width, total_columns, args):
     start = time.time()
 
     column_width = game_width//total_columns
-    columns = make_columns(total_columns, column_width, game_width)
+    columns = Columns(total_columns, column_width, game_width)
 
     run = True
     while run:
-        draw(win, columns)
+        columns.draw(win)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -48,12 +38,13 @@ def main(win, game_width, total_columns, args):
                     try:
                         columns = module.algorithm(win, column_width, total_columns, columns)
                         end = time.time()
+                        print("Times swapped: " + str(columns.get_swapcount()))
                         print("Time it took to sort (secs): " + str(end-start))
                     except:
                         sys.exit("Could not complete algorithm")
 
                 if event.key == pygame.K_c:
-                    columns = make_columns(total_columns, column_width, game_width)
+                    columns = Columns(total_columns, column_width, game_width)
 
     pygame.quit()
 

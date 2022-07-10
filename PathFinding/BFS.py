@@ -3,6 +3,7 @@ from node import Node, draw, draw_grid, reconstruct_path
 
 
 def algorithm(win, width, rows, grid, start, end):
+    nodes_explored = 0
     queue = [start]
     seen_node_set = {start}
 
@@ -12,6 +13,7 @@ def algorithm(win, width, rows, grid, start, end):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+        nodes_explored += 1
 
         current = queue.pop(0)
 
@@ -19,7 +21,7 @@ def algorithm(win, width, rows, grid, start, end):
         if current == end:
             reconstruct_path(came_from, end, win, width, rows, grid)
             end.make_end()
-            return True
+            break
 
         # Update queue with neighbors
         for neighbor in current.neighbors:
@@ -35,5 +37,4 @@ def algorithm(win, width, rows, grid, start, end):
         if current != start:
             current.make_closed()
 
-    # No available path
-    return False
+    return nodes_explored 

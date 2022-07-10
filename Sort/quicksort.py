@@ -1,11 +1,12 @@
 from itertools import count
 import pygame
-from column import Column, draw, swap, print_columns, GREY
+from column import Column, GREY
+from Columns import Columns
 
 
 def algorithm(win, column_width, total_columns, columns):
-    columns = quicksort(win, columns, 0, len(columns)-1)
-    for column in columns:
+    quicksort(win, columns, 0, len(columns)-1)
+    for column in columns.get_columns():
         column.make_set()
     return columns
 
@@ -14,13 +15,11 @@ def quicksort(win, columns, low, high):
     if low < high:
         # Sort smaller elements to left of pi
         # and larger elements to right of pi
-        pi, columns = partition(win, columns, low, high)
-        draw(win, columns)
+        pi = partition(win, columns, low, high)
+        columns.draw(win)
 
-        columns = quicksort(win, columns, low, pi-1)
-        columns = quicksort(win, columns, pi+1, high)
-
-    return columns
+        quicksort(win, columns, low, pi-1)
+        quicksort(win, columns, pi+1, high)
 
 
 def partition(win, columns, low, high):
@@ -42,12 +41,12 @@ def partition(win, columns, low, high):
 
             # Swap i and j
             i += 1
-            columns = swap(columns, i, j)
+            columns.swap(i, j)
             last_swapped = (columns[i], columns[j])
 
-        draw(win, columns)
+        columns.draw(win)
         
-    columns = swap(columns, i+1, high)
+    columns.swap(i+1, high)
 
     # Deselect last swapped
     columns[i+1].make_deselect()
@@ -57,4 +56,4 @@ def partition(win, columns, low, high):
             item.make_deselect()
 
     pivot.make_set()
-    return i+1, columns
+    return i+1

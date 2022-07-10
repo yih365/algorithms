@@ -7,6 +7,7 @@ def algorithm(win, width, rows, grid, start, end):
     # PQ for getting next best node
     open_set = PriorityQueue()
     count = 0
+    nodes_explored = 0
     open_set.put((0, 0, start))
     open_set_hash = {start}
 
@@ -21,6 +22,7 @@ def algorithm(win, width, rows, grid, start, end):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+        nodes_explored += 1
 
         # Get next node from PQ
         saved_g, _, current = open_set.get()
@@ -33,7 +35,7 @@ def algorithm(win, width, rows, grid, start, end):
         if current == end:
             reconstruct_path(came_from, end, win, width, rows, grid)
             end.make_end()
-            return True
+            break
 
         # Iterate over neighbors
         for neighbor in current.neighbors:
@@ -54,6 +56,5 @@ def algorithm(win, width, rows, grid, start, end):
         if current != start:
             current.make_closed()
 
-    # No valid path
-    return False
+    return nodes_explored
     

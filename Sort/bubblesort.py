@@ -1,5 +1,6 @@
 import pygame
-from column import Column, draw, swap, print_columns, GREY
+from column import Column, GREY
+from Columns import Columns
 
 
 def algorithm(win, column_width, total_columns, columns):
@@ -15,10 +16,10 @@ def algorithm(win, column_width, total_columns, columns):
                 for item in last_pair:
                     if item.color != GREY:
                         item.make_deselect()
-                columns = swap(columns, j, j+1)
+                columns.swap(j, j+1)
                 last_pair = (columns[j], columns[j+1])
             
-            draw(win, columns)
+            columns.draw(win)
 
         columns[len(columns)-i-1].make_set()
     columns[0].make_set()

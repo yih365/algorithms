@@ -1,13 +1,14 @@
 import copy
 import pygame
-from column import Column, draw, swap, print_columns, GREY
+from column import Column, GREY
+from Columns import Columns
 
 
 def algorithm(win, column_width, total_columns, columns):
     mergeSort(win, columns, 0, len(columns)-1)
 
     # visual for completed sorting
-    for column in columns:
+    for column in columns.get_columns():
         column.make_set()
 
     return columns
@@ -64,10 +65,10 @@ def merge(win, columns, startIndex, mid, endIndex):
         columns[i].change_pos(i)
         columns[i].make_swapped()
         last_marked = columns[i]
-        draw(win, columns)
+        columns.draw(win)
 
     if last_marked:
         last_marked.make_deselect()
-    draw(win, columns)
+    columns.draw(win)
 
     

@@ -1,5 +1,6 @@
 import pygame
-from column import Column, draw, swap, print_columns, GREY
+from column import Column, GREY
+from Columns import Columns
 
 
 def algorithm(win, column_width, total_columns, columns):
@@ -16,9 +17,9 @@ def algorithm(win, column_width, total_columns, columns):
                 smallestIndex = j
                 columns[smallestIndex].make_swapped()
 
-            draw(win, columns)
+            columns.draw(win)
 
-        columns = swap(columns, i, smallestIndex)
+        columns.swap(i, smallestIndex)
         columns[smallestIndex].make_deselect()
         columns[i].make_set()
     columns[len(columns)-1].make_set()

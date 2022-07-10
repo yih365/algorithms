@@ -94,8 +94,10 @@ def main(win, width, rows, args):
                     # Use corresponding algorithm
                     module = sys.modules[algor]
                     try:
-                        module.algorithm(win, width, rows, grid, start, end)
+                        nodes_explored = module.algorithm(win, width, rows, grid, start, end)
                         endTime = time.time()
+                        if nodes_explored and isinstance(nodes_explored, int):
+                            print("Nodes explored: " + str(nodes_explored))
                         print("Time it took to find path (secs): " + str(endTime-startTime))
                     except:
                         sys.exit("Could not find algorithm")

@@ -12,6 +12,7 @@ def h(p1, p2):
 
 
 def algorithm(win, width, rows, grid, start, end):
+    nodes_explored = 0
     count = 0
 
     # PQ for getting next best node
@@ -35,7 +36,8 @@ def algorithm(win, width, rows, grid, start, end):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-        
+        nodes_explored += 1       
+
         # Get next node from PQ
         current = open_set.get()[2]
         open_set_hash.remove(current)
@@ -44,7 +46,7 @@ def algorithm(win, width, rows, grid, start, end):
         if current == end:
             reconstruct_path(came_from, end, win, width, rows, grid)
             end.make_end()
-            return True
+            break
 
         # Update neighbor scores
         for neighbor in current.neighbors:
@@ -67,5 +69,4 @@ def algorithm(win, width, rows, grid, start, end):
         if current != start:
             current.make_closed()
 
-    # Did not find path
-    return False
+    return nodes_explored

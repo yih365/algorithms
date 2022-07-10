@@ -1,6 +1,7 @@
 from itertools import count
 import pygame
-from column import Column, draw, swap, print_columns, GREY
+from column import Column, GREY
+from Columns import Columns
 
 
 def algorithm(win, column_width, total_columns, columns):
@@ -21,9 +22,9 @@ def algorithm(win, column_width, total_columns, columns):
                         if item.color != GREY:
                             item.make_deselect()
                 last_pair = (columns[i], columns[i+1])
-                columns = swap(columns, i, i+1)
+                columns.swap(i, i+1)
                 swapped = True
-            draw(win, columns)
+            columns.draw(win)
         if last_pair:
             for item in last_pair:
                 if item.color != GREY:
@@ -49,9 +50,9 @@ def algorithm(win, column_width, total_columns, columns):
                         if item.color != GREY:
                             item.make_deselect()
                 last_pair = (columns[i], columns[i+1])
-                columns = swap(columns, i, i+1)
+                columns.swap(i, i+1)
                 swapped = True
-            draw(win, columns)
+            columns.draw(win)
         if last_pair:
             for item in last_pair:
                 if item.color != GREY:

@@ -1,4 +1,3 @@
-from turtle import width
 import pygame
 
 WHITE = (255, 255, 255)
@@ -42,28 +41,3 @@ class Column:
 
     def __lt__(self, other):
         return False
-
-
-def draw(win, columns):
-    win.fill(BLACK)
-
-    for column in columns:
-        column.draw(win)
-
-    pygame.display.update()
-
-
-def swap(columns, index1, index2):
-    columns[index1].change_pos(index2)
-    columns[index2].change_pos(index1)
-    columns[index1], columns[index2] = columns[index2], columns[index1]
-    columns[index1].make_swapped()
-    columns[index2].make_swapped()
-    return columns
-
-
-def print_columns(columns):
-    """print columns for debugging"""
-    for column in columns:
-        print(column.get_value(), end=' ')
-    print()
