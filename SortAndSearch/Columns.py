@@ -6,6 +6,7 @@ class Columns:
     def __init__(self, columns_num, column_width, game_width):
         self.swap_count = 0
         self.columns = []
+        self.columns_num = columns_num
 
         for i in range(columns_num):
             column = Column(i, column_width, random.randint(0, columns_num-1), game_width, columns_num)
@@ -45,6 +46,22 @@ class Columns:
         for column in self.columns:
             print(column.get_value(), end='')
         print()
+
+    def select_random(self):
+        index = random.randint(0, self.columns_num-1)
+        self.columns[index].select()
+        self.selected = self.columns[index]
+    
+    def check(self, column):
+        column.make_swapped()
+        self.swap_count += 1
+        if self.selected.equals(column):
+            column.make_set()
+            return True
+        return False
+    
+    def get_selected(self):
+        return self.selected
 
     def __len__(self):
         return len(self.columns)

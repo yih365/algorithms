@@ -10,13 +10,13 @@ import quicksort, mergesort, cocktailsort
 
 WIDTH = 800
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
-pygame.display.set_caption("Search Algorithm")
+pygame.display.set_caption("Sort Algorithm")
 COLUMNS = 50
 
 def main(win, game_width, total_columns, args):
     if len(args) < 2:
-        sys.exit("Usage: python search.py [algorithm name]")
-    if args[1] not in (set(sys.modules)&set(globals()) - {"pygame", "sys", "math", "column"}):
+        sys.exit("Usage: python sort.py [algorithm name]")
+    if args[1] not in (set(sys.modules)&set(globals()) - {"pygame", "sys", "math", "column", "Columns"}):
         sys.exit("Sorry this algorithm does not exist here")
     algor = args[1]
 
@@ -50,4 +50,3 @@ def main(win, game_width, total_columns, args):
 
 
 main(WIN, WIDTH, COLUMNS, sys.argv)
-

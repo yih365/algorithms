@@ -38,6 +38,12 @@ class Column:
 
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.pheight))
+    
+    def select(self):
+        self.color = BLUE
+
+    def equals(self, other):
+        return self.position == other.position and self.value == other.value
 
     def __lt__(self, other):
         return False
