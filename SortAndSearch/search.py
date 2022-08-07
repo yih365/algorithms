@@ -3,7 +3,7 @@ from column import Column
 from Columns import Columns
 import sys
 import time
-import linearsearch
+import linearsearch, binarysearch
 
 WIDTH = 800
 WIN = pygame.display.set_mode((WIDTH, WIDTH))

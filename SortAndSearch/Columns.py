@@ -12,6 +12,10 @@ class Columns:
             column = Column(i, column_width, random.randint(0, columns_num-1), game_width, columns_num)
             self.columns.append(column)
 
+    def clear(self):
+        for column in self.get_columns():
+            column.make_deselect()
+    
     def get_swapcount(self):
         return self.swap_count
 
@@ -44,7 +48,7 @@ class Columns:
     def print_columns(self):
         """print columns for debugging"""
         for column in self.columns:
-            print(column.get_value(), end='')
+            print(column.get_value(), end=', ')
         print()
 
     def select_random(self):
