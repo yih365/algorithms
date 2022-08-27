@@ -19,3 +19,4 @@ Press KEY [c] to clear
 ### Algorithms:
 - linearsearch
 - binarysearch
+- jumpsearch

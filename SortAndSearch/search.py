@@ -3,7 +3,7 @@ from column import Column
 from Columns import Columns
 import sys
 import time
-import linearsearch, binarysearch
+import linearsearch, binarysearch, jumpsearch
 
 WIDTH = 800
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
@@ -33,8 +33,8 @@ def main(win, game_width, total_columns, args):
                 if event.key == pygame.K_SPACE:
                     module = sys.modules[algor]
                     columns.select_random()
+                    columns = module.algorithm(win, column_width, total_columns, columns)
                     try:
-                        columns = module.algorithm(win, column_width, total_columns, columns)
                         end = time.time()
                         print("Time it took to find (secs): " + str(end-start))
                         print("Times swapped: " + str(columns.get_swapcount()))
